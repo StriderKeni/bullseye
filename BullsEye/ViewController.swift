@@ -9,15 +9,24 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var changeSlider: UILabel!
+    @IBOutlet weak var sliderOutlet: UISlider!
+    
+    var currentValue: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        currentValue = Int(sliderOutlet.value.rounded())
       
     }
 
     @IBAction func showAlert() {
         
-        let alert = UIAlertController(title: "Hello, World", message: "This is a new pop-up", preferredStyle: .alert)
+        let message: String = "The value of the slider is now: \(currentValue)"
+        
+        let alert = UIAlertController(title: "Hello, World", message: message, preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Awesome", style: .default, handler: nil)
         
@@ -26,6 +35,15 @@ class ViewController: UIViewController {
         present(alert, animated: true, completion: nil)
         
     }
-
+    
+    @IBAction func sliderMove(_ slider: UISlider) {
+        currentValue = Int(slider.value.rounded())
+        changeSlider.text = String(currentValue)
+    }
+    
+    
+    
+    
+    
 }
 
