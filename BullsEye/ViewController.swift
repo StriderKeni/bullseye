@@ -12,23 +12,61 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var changeSlider: UILabel!
     @IBOutlet weak var sliderOutlet: UISlider!
+    @IBOutlet weak var scoreOutlet: UILabel!
+    @IBOutlet weak var countRounds: UILabel!
     
     var currentValue: Int = 0
+    var targetValue: Int = 0
+    var score: Int = 100
+    var rounds: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentValue = Int(sliderOutlet.value.rounded())
-      
+//        currentValue = Int(sliderOutlet.value.rounded())
+//        targetValue = Int.random(in: 1...100)
+//        changeSlider.text = String(targetValue)
+        startNewRound()
+        
     }
 
     @IBAction func showAlert() {
         
-        let message: String = "The value of the slider is now: \(currentValue)"
+        let message: String
+        let tittle: String
         
-        let alert = UIAlertController(title: "Hello, World", message: message, preferredStyle: .alert)
+        if currentValue == targetValue {
+            
+            score=score+200
+            tittle = "Perfect!"
+            message = "You got it! your score is now: \(String(score))"
+            
+        } else if abs(currentValue - targetValue) < 2 {
+            
+            score = score + abs(currentValue - targetValue)
+            tittle = "You almost got it"
+            message = "Your score is : \(String(score)) and you have a bonus of 50, total \(String(score+50))"
+            score = score+50
+            
+        } else if abs(currentValue - targetValue) < 50 {
+            
+            score = score + abs(currentValue - targetValue)
+            tittle = "You almost got it"
+            message = "Your score is : \(String(score))"
         
-        let action = UIAlertAction(title: "Awesome", style: .default, handler: nil)
+        } else {
+            
+            score = score + abs(currentValue - targetValue)
+            tittle = "Please keep practicing"
+            message = "Your score is : \(String(score))"
+            
+        }
+    
+        let alert = UIAlertController(title: tittle, message: message, preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Continue", style: .default, handler: {
+            action in self.startNewRound()
+        })
         
         alert.addAction(action)
         
@@ -38,11 +76,29 @@ class ViewController: UIViewController {
     
     @IBAction func sliderMove(_ slider: UISlider) {
         currentValue = Int(slider.value.rounded())
-        changeSlider.text = String(currentValue)
+        
     }
     
     
+    @IBAction func resetBtn(_ sender: Any) {
+        resetGame()
+    }
     
+    func startNewRound() {
+        rounds+=1
+        countRounds.text = String(rounds)
+        targetValue = Int.random(in: 1...100)
+        changeSlider.text = String(targetValue)
+        currentValue = 50
+        scoreOutlet.text = String(score)
+        sliderOutlet.value = Float(currentValue)
+    }
+    
+    func resetGame() {
+        score=100
+        rounds=0
+        startNewRound()
+    }
     
     
 }
