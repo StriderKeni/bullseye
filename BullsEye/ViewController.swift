@@ -28,6 +28,24 @@ class ViewController: UIViewController {
 //        changeSlider.text = String(targetValue)
         startNewRound()
         
+        let thumbImageNormal = #imageLiteral(resourceName: "SliderThumb-Normal")
+        sliderOutlet.setThumbImage(thumbImageNormal, for: .normal)
+        let thumbImageHighlighted = #imageLiteral(resourceName: "SliderThumb-Highlighted")
+        sliderOutlet.setThumbImage(thumbImageHighlighted, for: .highlighted)
+        
+        let insets = UIEdgeInsets.init(top: 0, left: 14, bottom: 0, right: 14)
+        
+        let trackLeftImage = #imageLiteral(resourceName: "SliderTrackLeft")
+        let trackLeftResizable = trackLeftImage.resizableImage(withCapInsets: insets)
+        
+        sliderOutlet.setMinimumTrackImage(trackLeftResizable, for: .normal)
+        
+        let trackRightImage = #imageLiteral(resourceName: "SliderTrackRight")
+        let trackRightResizable = trackRightImage.resizableImage(withCapInsets: insets)
+        sliderOutlet.setMaximumTrackImage(trackRightResizable, for: .normal)
+        
+        
+        
     }
 
     @IBAction func showAlert() {
